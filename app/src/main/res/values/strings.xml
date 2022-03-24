@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">noteApp</string>
+    <string name="title">Title</string>
+
+    <!--list -->
+    <string name="noteText">Secondary text, note text</string>
+    <string name="button_text">Note</string>
+    <string name="button_text_description">Note</string>
+
+    <!--note -->
+    <string name="note_title_placeholder">Title</string>
+    <string name="note_text_placeholder">Note text</string>
+
+    <string name="preference_file_string">com.example.simplenote.PREFERENCE_FILE_STRING</string>
+</resources>
