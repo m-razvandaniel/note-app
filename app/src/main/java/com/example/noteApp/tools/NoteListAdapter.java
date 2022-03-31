@@ -1,5 +1,6 @@
-package com.example.noteApp;
+package com.example.noteApp.tools;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,16 +8,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.noteApp.MainActivity;
+import com.example.noteApp.Note;
+import com.example.noteApp.NoteActivity;
+import com.example.noteApp.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> {
-    //private String[] localDataSet;
     private ArrayList<Note> localDataSet;
 
-    //1
-    /**
+    /** 1
      * Initialize the dataset of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used
@@ -26,7 +30,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         localDataSet = dataSet;
     }
 
-    //2 crearea unui card
+    /**2
+     * creating the view: MaterialCardView, TextView
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
@@ -37,17 +43,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final MaterialCardView noteObject;
-        private final TextView textView;
-        //private int code;
+        private final MaterialCardView materialCardView;
+        private final TextView titleText;
+        private final TextView bodyText;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
-            noteObject = view.findViewById(R.id.card);
-            textView = view.findViewById(R.id.textTitle);
-
+            materialCardView = view.findViewById(R.id.card);
+            titleText = view.findViewById(R.id.textTitle);
+            bodyText = view.findViewById(R.id.bodyText);
             /*noteObject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,10 +67,13 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         }
 
         public MaterialCardView getMaterialCardView() {
-            return noteObject;
+            return materialCardView;
         }
-        public TextView getTextView() {
-            return textView;
+        public TextView getTitleText() {
+            return titleText;
+        }
+        public TextView getBodyText() {
+            return bodyText;
         }
     }
 
@@ -73,18 +82,18 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+        Context currentContext = viewHolder.itemView.getContext();
 
-        //viewHolder.getMaterialCardView();
-        //setText(localDataSet[position]);
+        viewHolder.getTitleText().setText(localDataSet.get(position).noteTitle);    //setting the title text
+        viewHolder.getBodyText().setText(localDataSet.get(position).noteText.split("\n", 2)[0]);    //setting the description text
 
-        viewHolder.getTextView().setText(localDataSet.get(position).noteTitle);
-        viewHolder.noteObject.setOnClickListener(new View.OnClickListener() {
+        viewHolder.materialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(viewHolder.itemView.getContext(), NoteActivity.class);
+                Intent intent = new Intent(currentContext, NoteActivity.class);
                 intent.putExtra(MainActivity.INTENT_ID, localDataSet.get(viewHolder.getAdapterPosition()).code);
                 intent.putExtra(MainActivity.INTENT_NOTE_OPERATION, "access");
-                viewHolder.itemView.getContext().startActivity(intent);
+                currentContext.startActivity(intent);
             }
         });
         //viewHolder.getMaterialCardView().setId(localDataSet.get(position).code);

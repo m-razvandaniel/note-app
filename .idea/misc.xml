@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/drawable/ic_round_category_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/drawable/ic_round_create_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/layout/activity_main.xml" value="0.22509057971014493" />
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/layout/activity_note.xml" value="0.264" />
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/layout/list_object.xml" value="0.20471014492753623" />
+        <entry key="..\:/androidApplications/note-app/app/src/main/res/menu/top_app_bar.xml" value="0.25" />
         <entry key="..\:/androidApplications/simpleNote/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/androidApplications/simpleNote/app/src/main/res/layout/list_object.xml" value="0.2391304347826087" />
       </map>

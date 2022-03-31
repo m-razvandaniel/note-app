@@ -10,6 +10,7 @@
     <!--note -->
     <string name="note_title_placeholder">Title</string>
     <string name="note_text_placeholder">Note text</string>
+    <string name="app_bar_title">new Note</string>>
 
     <string name="preference_file_string">com.example.simplenote.PREFERENCE_FILE_STRING</string>
 </resources>

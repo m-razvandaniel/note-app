@@ -1,20 +1,19 @@
 package com.example.noteApp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.noteApp.tools.DataObject;
+import com.example.noteApp.tools.NoteListAdapter;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,28 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //note.add(new Note(0, "Note Title", "Note Text"));
+        //get data from sharedPreferences
+        DataObject dataObject = new DataObject();
+        dataObject.initializeArrayList();
 
-        Gson gson = new Gson();
-        Context context = getApplicationContext();
-        SharedPreferences sharedPreferences = context.getSharedPreferences(getString(R.string.preference_file_string), Context.MODE_PRIVATE);
-
-        if(sharedPreferences.contains("arrayList")) {
-            Type collection = new TypeToken<ArrayList<Note>>(){
-            }.getType();
-            String json = sharedPreferences.getString("arrayList", "0");
-            note = gson.fromJson(json, collection);
-            n = sharedPreferences.getInt("n", -1);
-        }
-
-        //setting the reciclerView
+        //setting the recyclerView
         noteListAdapter = new NoteListAdapter(note);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(noteListAdapter);
 
+        //clickListener for floating button
         Intent intent = new Intent(this, NoteActivity.class);
-        //intent.putExtra(INTENT_NOTE_OPERATION, "create");
         ExtendedFloatingActionButton extendedFloatingActionButton = findViewById(R.id.extended_fab);
         extendedFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +49,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*RecyclerView.Adapter noteListAdapter = new NoteListAdapter(note.toArray());
-        RecyclerView recyclerView = new RecyclerView(R.id.recyclerView);
-        recyclerView.setAdapter(noteListAdapter);*/
+        //funtionality for deleting a note
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                note.remove(viewHolder.getAdapterPosition());
+                noteListAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                dataObject.updateData();
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    //method to increase the id n on every note created
     public static void plusN() {
         n = n + 1;
     }
