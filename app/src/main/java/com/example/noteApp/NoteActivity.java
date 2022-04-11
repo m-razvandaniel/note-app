@@ -49,7 +49,7 @@ public class NoteActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(operation.contentEquals("create")) {
-                    MainActivity.note.add(new Note(generateId(), textInputEditText1.getText().toString(), textInputEditText2.getText().toString()));
+                    MainActivity.note.add(new Note(generateCode(), textInputEditText1.getText().toString(), textInputEditText2.getText().toString()));
                     MainActivity.noteListAdapter.notifyDataSetChanged();
                 }
                 if(operation.contentEquals("access")) {
@@ -66,7 +66,7 @@ public class NoteActivity extends AppCompatActivity {
         });
     }
 
-    private int generateId() {
+    private int generateCode() {
         MainActivity.plusN();
         return MainActivity.n;
     }
